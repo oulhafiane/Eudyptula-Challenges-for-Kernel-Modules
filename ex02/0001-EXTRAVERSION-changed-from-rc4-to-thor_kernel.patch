@@ -1,0 +1,30 @@
+From f5de19c4be67c5796bcba506e2d427ed8cbf4f36 Mon Sep 17 00:00:00 2001
+From: Zakariaa Oulhafiane <zoulhafi@student.1337.ma>
+Date: Sun, 12 Dec 2021 10:25:41 +0100
+Subject: [PATCH] EXTRAVERSION changed from -rc4 to -thor_kernel
+
+EXTRAVERSION changed from -rc4 to -thor_kernel
+because the writer of the little-penguin-1 want that happens
+so that's why i made this change, i am sorry.
+
+Signed-off-by: Zakariaa Oulhafiane <zoulhafi@student.1337.ma>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index bce58275257a..163903b11ca1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 5
+ PATCHLEVEL = 16
+ SUBLEVEL = 0
+-EXTRAVERSION = -rc4
++EXTRAVERSION = -thor_kernel
+ NAME = Gobble Gobble
+ 
+ # *DOCUMENTATION*
+-- 
+2.33.0
+
