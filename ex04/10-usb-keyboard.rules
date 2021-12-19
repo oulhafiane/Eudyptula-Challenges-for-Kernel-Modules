@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEM=="usb", ATTRS{product}=="*[Kk]eyboard*", RUN+="/usr/sbin/insmod /root/main.ko"
+ACTION=="remove", SUBSYSTEM=="usb", ATTRS{product}=="*[Kk]eyboard*", RUN+="/usr/sbin/rmmod /root/main.ko"
