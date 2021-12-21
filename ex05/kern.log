@@ -1,0 +1,27 @@
+
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.367986] Hello world !
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368600] fortytwo misc driver major/minor = (10, 125) registred
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368815] dev node is /dev/fortytwo
+Dec 21 11:31:37 <zoulhafi> kernel: [ 2865.078614] Device file fortytwo opened.
+Dec 21 11:31:37 <zoulhafi> kernel: [ 2865.078875] Device file fortytwo closed.
+Dec 21 11:32:25 <zoulhafi> kernel: [ 2912.782605] Device file fortytwo opened.
+Dec 21 11:32:25 <zoulhafi> kernel: [ 2912.782849] Device file fortytwo closed.
+Dec 21 11:32:39 <zoulhafi> kernel: [ 2926.502659] Device file fortytwo opened.
+Dec 21 11:32:39 <zoulhafi> kernel: [ 2926.502901] Device file fortytwo closed.
+Dec 21 11:33:04 <zoulhafi> kernel: [ 2951.742719] Device file fortytwo opened.
+Dec 21 11:33:04 <zoulhafi> kernel: [ 2951.742954] Device file fortytwo closed.
+Dec 21 11:33:13 <zoulhafi> kernel: [ 2961.246630] Device file fortytwo opened.
+Dec 21 11:33:13 <zoulhafi> kernel: [ 2961.246863] Device file fortytwo closed.
+Dec 21 11:33:31 <zoulhafi> kernel: [ 2978.974121] Device file fortytwo opened.
+Dec 21 11:33:31 <zoulhafi> kernel: [ 2978.974417] Device file fortytwo closed.
+Dec 21 11:33:37 <zoulhafi> kernel: [ 2984.581608] Device file fortytwo opened.
+Dec 21 11:33:37 <zoulhafi> kernel: [ 2984.581802] Device file fortytwo closed.
+Dec 21 11:33:42 <zoulhafi> kernel: [ 2990.221841] Device file fortytwo opened.
+Dec 21 11:33:42 <zoulhafi> kernel: [ 2990.222016] Device file fortytwo closed.
+Dec 21 11:33:45 <zoulhafi> kernel: [ 2992.701837] Device file fortytwo opened.
+Dec 21 11:33:45 <zoulhafi> kernel: [ 2992.702026] Device file fortytwo closed.
+Dec 21 11:33:48 <zoulhafi> kernel: [ 2995.685868] Device file fortytwo opened.
+Dec 21 11:33:48 <zoulhafi> kernel: [ 2995.686057] Device file fortytwo closed.
+Dec 21 11:34:12 <zoulhafi> kernel: [ 3019.813005] Device file fortytwo opened.
+Dec 21 11:34:12 <zoulhafi> kernel: [ 3019.813191] Device file fortytwo closed.
+Dec 21 11:34:25 <zoulhafi> kernel: [ 3032.942748] Cleaning up module.

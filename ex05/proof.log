@@ -1,0 +1,80 @@
+-bash-5.1# ls
+Makefile  main.c
+-bash-5.1# make
+make -C /lib/modules/5.16.0-thor_kernel-zoulhafi-00339-gf5de19c4be67/build M=/root/misc modules
+make[1]: Entering directory '/usr/src/linux-5.16-rc4'
+  CC [M]  /root/misc/main.o
+  MODPOST /root/misc/Module.symvers
+  CC [M]  /root/misc/main.mod.o
+  LD [M]  /root/misc/main.ko
+make[1]: Leaving directory '/usr/src/linux-5.16-rc4'
+-bash-5.1# insmod main.ko
+-bash-5.1# cat /var/log/kern.log
+
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.367986] Hello world !
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368600] fortytwo misc driver major/minor = (10, 125) registred
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368815] dev node is /dev/fortytwo
+-bash-5.1# ls -la /dev/fortytwo
+crw-rw-rw- 1 root root 10, 125 Dec 21 11:31 /dev/fortytwo
+-bash-5.1# cat -e /dev/fortytwo
+zoulhafi-bash-5.1# dd if=/dev/fortytwo of=test.tmp bs=1 count=8 && cat test.tmp && rm test.tmp
+8+0 records in
+8+0 records out
+8 bytes copied, 0.000667403 s, 12.0 kB/s
+zoulhafi-bash-5.1# dd if=/dev/fortytwo of=test.tmp bs=1 count=8
+8+0 records in
+8+0 records out
+8 bytes copied, 0.000609855 s, 13.1 kB/s
+-bash-5.1# cat test.tmp && rm test.tmp
+-bash-5.1# dd if=/dev/fortytwo of=test.tmp bs=8 count=1 && cat test.tmp && rm test.tmp
+1+0 records in
+1+0 records out
+8 bytes copied, 0.000599518 s, 13.3 kB/s
+zoulhafi-bash-5.1# dd if=/dev/fortytwo of=test.tmp bs=3 count=100 && cat test.tmp && rm test.tmp
+2+1 records in
+2+1 records out
+8 bytes copied, 0.00072607 s, 11.0 kB/s
+zoulhafi-bash-5.1# echo -n "zoulhafi" > /dev/f
+fd/       fortytwo  full
+-bash-5.1# echo -n "zoulhafi" > /dev/f
+fd/       fortytwo  full
+-bash-5.1# echo -n "zoulhafi" > /dev/fortytwo
+-bash-5.1# echo -n "zoulhafii" > /dev/fortytwo
+-bash: echo: write error: Invalid argument
+-bash-5.1# echo -n "zoulhai" > /dev/fortytwo
+-bash: echo: write error: Invalid argument
+-bash-5.1# echo -n "zoulhafi" > /dev/fortytwo
+-bash-5.1# echo -n "" > /dev/fortytwo
+-bash-5.1# echo "" > /dev/fortytwo
+-bash: echo: write error: Invalid argument
+-bash-5.1# echo "" > /dev/fortytwo ^C
+-bash-5.1# rmmod main
+-bash-5.1# cat /var/log/kern.log
+
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.367986] Hello world !
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368600] fortytwo misc driver major/minor = (10, 125) registred
+Dec 21 11:31:06 <zoulhafi> kernel: [ 2834.368815] dev node is /dev/fortytwo
+Dec 21 11:31:37 <zoulhafi> kernel: [ 2865.078614] Device file fortytwo opened.
+Dec 21 11:31:37 <zoulhafi> kernel: [ 2865.078875] Device file fortytwo closed.
+Dec 21 11:32:25 <zoulhafi> kernel: [ 2912.782605] Device file fortytwo opened.
+Dec 21 11:32:25 <zoulhafi> kernel: [ 2912.782849] Device file fortytwo closed.
+Dec 21 11:32:39 <zoulhafi> kernel: [ 2926.502659] Device file fortytwo opened.
+Dec 21 11:32:39 <zoulhafi> kernel: [ 2926.502901] Device file fortytwo closed.
+Dec 21 11:33:04 <zoulhafi> kernel: [ 2951.742719] Device file fortytwo opened.
+Dec 21 11:33:04 <zoulhafi> kernel: [ 2951.742954] Device file fortytwo closed.
+Dec 21 11:33:13 <zoulhafi> kernel: [ 2961.246630] Device file fortytwo opened.
+Dec 21 11:33:13 <zoulhafi> kernel: [ 2961.246863] Device file fortytwo closed.
+Dec 21 11:33:31 <zoulhafi> kernel: [ 2978.974121] Device file fortytwo opened.
+Dec 21 11:33:31 <zoulhafi> kernel: [ 2978.974417] Device file fortytwo closed.
+Dec 21 11:33:37 <zoulhafi> kernel: [ 2984.581608] Device file fortytwo opened.
+Dec 21 11:33:37 <zoulhafi> kernel: [ 2984.581802] Device file fortytwo closed.
+Dec 21 11:33:42 <zoulhafi> kernel: [ 2990.221841] Device file fortytwo opened.
+Dec 21 11:33:42 <zoulhafi> kernel: [ 2990.222016] Device file fortytwo closed.
+Dec 21 11:33:45 <zoulhafi> kernel: [ 2992.701837] Device file fortytwo opened.
+Dec 21 11:33:45 <zoulhafi> kernel: [ 2992.702026] Device file fortytwo closed.
+Dec 21 11:33:48 <zoulhafi> kernel: [ 2995.685868] Device file fortytwo opened.
+Dec 21 11:33:48 <zoulhafi> kernel: [ 2995.686057] Device file fortytwo closed.
+Dec 21 11:34:12 <zoulhafi> kernel: [ 3019.813005] Device file fortytwo opened.
+Dec 21 11:34:12 <zoulhafi> kernel: [ 3019.813191] Device file fortytwo closed.
+Dec 21 11:34:25 <zoulhafi> kernel: [ 3032.942748] Cleaning up module.
+-bash-5.1#
