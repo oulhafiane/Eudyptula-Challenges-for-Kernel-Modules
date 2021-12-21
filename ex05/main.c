@@ -30,7 +30,7 @@ static ssize_t myread(struct file *f, char __user *buf, size_t len, loff_t *offs
 	if (*offset + len > max)
 		len = max - *offset;
 	if (copy_to_user(buf, login + *offset, len))
-		return -EINVAL;
+		return (-EINVAL);
 	*offset += len;
 	return (len);
 }
@@ -39,13 +39,16 @@ static ssize_t mywrite(struct file *f, const char __user *buf, size_t len, loff_
 {
 	int	i;
 	char	login[8] = "zoulhafi";
+	char	tmp[8];
 	int	max = 8;
 
 	if (len != max)
-		return -EINVAL;
+		return (-EINVAL);
+	if (copy_from_user(tmp, buf, max))
+		return (-EINVAL);
 	for (i = 0;i < max; i++) {
-		if (buf[i] != login[i])
-			return -EINVAL;
+		if (tmp[i] != login[i])
+			return (-EINVAL);
 	}
 	return (max);
 }
