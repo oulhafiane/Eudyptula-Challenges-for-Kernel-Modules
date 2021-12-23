@@ -2,6 +2,7 @@
 #include <linux/version.h>
 #include <linux/kernel.h>
 #include <linux/debugfs.h>
+#include <linux/mutex.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zakariaa Oulhafiane <zoulhafi@student.1337.ma>");
