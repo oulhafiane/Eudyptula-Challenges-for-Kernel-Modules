@@ -9,8 +9,7 @@ MODULE_DESCRIPTION("Assignment 07");
 
 DEFINE_MUTEX(mtx);
 static struct dentry	*fortytwo;
-static size_t		page_size = PAGE_SIZE * 1024;
-static char		data[PAGE_SIZE * 1024];
+static char		data[PAGE_SIZE];
 
 static ssize_t id_read(struct file *f, char __user *buf, size_t len, loff_t *offset)
 {
@@ -52,13 +51,16 @@ static const struct file_operations id_fops = {
 
 static ssize_t jiffies_read(struct file *f, char __user *buf, size_t len, loff_t *offset)
 {
-	int n;
+	int	n;
+	char	localbuf[50];
 
 	if (*offset != 0)
 		return (0);
-	n = snprintf(buf, len, "%ld", jiffies);
-	(*offset)++;
-	return (n);
+	if (len > 50)
+		len = 50;
+	memset(localbuf, 0, 50);
+	n = snprintf(localbuf, len, "%ld", jiffies);
+	return (simple_read_from_buffer(buf, len, offset, localbuf, strlen(localbuf)));
 }
 
 static const struct file_operations jiffies_fops = {
@@ -68,15 +70,11 @@ static const struct file_operations jiffies_fops = {
 static ssize_t foo_read(struct file *f, char __user *buf, size_t len, loff_t *offset)
 {
 	int status = 0;
-	if (mutex_lock_interruptible(&mtx))
-	{
-		printk(KERN_INFO "Ok it's locked\n");
-		return (-ERESTARTSYS);
-	}
-	if (*offset >= page_size)
+	mutex_lock(&mtx);
+	if (*offset >= PAGE_SIZE)
 		goto unlock_mtx_rd;
-	if (len + *offset > page_size)	
-		len = page_size - *offset;
+	if (len + *offset > PAGE_SIZE)	
+		len = PAGE_SIZE - *offset;
 	if (copy_to_user(buf, data + *offset, len)) {
 		status = -EINVAL;
 		goto unlock_mtx_rd;
@@ -91,12 +89,11 @@ unlock_mtx_rd:
 static ssize_t foo_write(struct file *f, const char __user *buf, size_t len, loff_t *offset)
 {
 	int status = 0;
-	if (mutex_lock_interruptible(&mtx))
-		return (-ERESTARTSYS);
-	if (*offset >= page_size)
+	mutex_lock(&mtx);
+	if (*offset >= PAGE_SIZE)
 		goto unlock_mtx_wr;
-	if (len + *offset > page_size)
-		len = page_size - *offset;
+	if (len + *offset > PAGE_SIZE)
+		len = PAGE_SIZE - *offset;
 	if (copy_from_user(data + *offset, buf, len)) {
 		status = -EINVAL;
 		goto unlock_mtx_wr;
@@ -138,7 +135,7 @@ static int __init hello_init(void)
 		debugfs_remove_recursive(fortytwo);
 		return (PTR_ERR(id));
 	}
-	memset(data, 0, page_size);
+	memset(data, 0, PAGE_SIZE);
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo created successfully.\n");
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo/id created successfully.\n");
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo/jiffies created successfully.\n");
