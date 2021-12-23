@@ -1,0 +1,71 @@
+-bash-5.1# ls
+Makefile  main.c
+-bash-5.1# make
+make -C /lib/modules/5.16.0-thor_kernel-zoulhafi-00339-gf5de19c4be67/build M=/root/debugfs modules
+make[1]: Entering directory '/usr/src/linux-5.16-rc4'
+  CC [M]  /root/debugfs/main.o
+  MODPOST /root/debugfs/Module.symvers
+  CC [M]  /root/debugfs/main.mod.o
+  LD [M]  /root/debugfs/main.ko
+make[1]: Leaving directory '/usr/src/linux-5.16-rc4'
+-bash-5.1# insmod main.ko
+-bash-5.1# lsmod
+Module                  Size  Used by
+main                   20480  0
+-bash-5.1# ls -la /sys/kernel/debug/fortytwo/
+total 0
+drwxr-xr-x  2 root root 0 Dec 23 17:23 .
+drwx------ 23 root root 0 Dec 23 17:21 ..
+-rw-r--r--  1 root root 0 Dec 23 17:23 foo
+-rw-rw-rw-  1 root root 0 Dec 23 17:23 id
+-r--r--r--  1 root root 0 Dec 23 17:23 jiffies
+-bash-5.1# cat /sys/kernel/debug/fortytwo/id ; echo
+zoulhafi
+-bash-5.1# echo -n "zoulhafiii" > /sys/kernel/debug/fortytwo/id
+-bash: echo: write error: Invalid argument
+-bash-5.1# echo -n "zoulhafi" > /sys/kernel/debug/fortytwo/id
+-bash-5.1# cat /sys/kernel/debug/fortytwo/jiffies ; echo
+4294869631
+-bash-5.1# cat /sys/kernel/debug/fortytwo/jiffies ; echo
+4294870496
+-bash-5.1# cat /sys/kernel/debug/fortytwo/jiffies ; echo
+4294871272
+-bash-5.1# cat /sys/kernel/debug/fortytwo/foo
+-bash-5.1# echo "Hello" > /sys/kernel/debug/fortytwo/foo
+-bash-5.1# cat /sys/kernel/debug/fortytwo/foo
+Hello
+-bash-5.1# su test
+bash-5.1$ ls -la /sys/kernel/debug/fortytwo/
+total 0
+drwxr-xr-x  2 root root 0 Dec 23 17:23 .
+drwx------ 23 test root 0 Dec 23 17:21 ..
+-rw-r--r--  1 root root 0 Dec 23 17:25 foo
+-rw-rw-rw-  1 root root 0 Dec 23 17:24 id
+-r--r--r--  1 root root 0 Dec 23 17:23 jiffies
+bash-5.1$ cat /sys/kernel/debug/fortytwo/id ; echo
+zoulhafi
+bash-5.1$ echo -n "zoulhafi" > /sys/kernel/debug/fortytwo/id
+bash-5.1$ echo -n "zoulhi" > /sys/kernel/debug/fortytwo/id
+bash: echo: write error: Invalid argument
+bash-5.1$ cat /sys/kernel/debug/fortytwo/jiffies ; echo
+4294960873
+bash-5.1$ cat /sys/kernel/debug/fortytwo/jiffies ; echo
+4294961640
+bash-5.1$ echo -n "zoulhi" > /sys/kernel/debug/fortytwo/jiffies
+bash: /sys/kernel/debug/fortytwo/jiffies: Permission denied
+bash-5.1$ echo -n "zoulhi" > /sys/kernel/debug/fortytwo/foo
+bash: /sys/kernel/debug/fortytwo/foo: Permission denied
+bash-5.1$ cat /sys/kernel/debug/fortytwo/foo
+Hello
+bash-5.1$ exit
+exit
+-bash-5.1# dd if=/dev/urandom of=/sys/kernel/debug/fortytwo/foo bs=1 count=4096
+4096+0 records in
+4096+0 records out
+4096 bytes (4.1 kB, 4.0 KiB) copied, 0.00547165 s, 749 kB/s
+-bash-5.1# dd if=/dev/urandom of=/sys/kernel/debug/fortytwo/foo bs=1 count=409600
+dd: error writing '/sys/kernel/debug/fortytwo/foo': No space left on device
+4097+0 records in
+4096+0 records out
+4096 bytes (4.1 kB, 4.0 KiB) copied, 0.0105941 s, 387 kB/s
+-bash-5.1#
