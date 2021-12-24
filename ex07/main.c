@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
 #include <linux/module.h>
 #include <linux/version.h>
 #include <linux/kernel.h>
@@ -18,13 +20,13 @@ static ssize_t id_read(struct file *f, char __user *buf, size_t len, loff_t *off
 	int	max = 8;
 
 	if (*offset >= max)
-		return (0);
+		return 0;
 	if (*offset + len > max)
 		len = max - *offset;
 	if (copy_to_user(buf, login + *offset, len))
-		return (-EINVAL);
+		return -EINVAL;
 	*offset += len;
-	return (len);
+	return len;
 }
 
 static ssize_t id_write(struct file *f, const char __user *buf, size_t len, loff_t *offset)
@@ -35,14 +37,14 @@ static ssize_t id_write(struct file *f, const char __user *buf, size_t len, loff
 	int	max = 8;
 
 	if (len != max)
-		return (-EINVAL);
+		return -EINVAL;
 	if (copy_from_user(tmp, buf, max))
-		return (-EINVAL);
-	for (i = 0;i < max; i++) {
+		return -EINVAL;
+	for (i = 0; i < max; i++) {
 		if (tmp[i] != login[i])
-			return (-EINVAL);
+			return -EINVAL;
 	}
-	return (max);
+	return max;
 }
 
 static const struct file_operations id_fops = {
@@ -61,7 +63,7 @@ static ssize_t jiffies_read(struct file *f, char __user *buf, size_t len, loff_t
 		len = 50;
 	memset(localbuf, 0, 50);
 	n = snprintf(localbuf, len, "%ld", jiffies);
-	return (simple_read_from_buffer(buf, len, offset, localbuf, strlen(localbuf)));
+	return simple_read_from_buffer(buf, len, offset, localbuf, strlen(localbuf));
 }
 
 static const struct file_operations jiffies_fops = {
@@ -71,10 +73,11 @@ static const struct file_operations jiffies_fops = {
 static ssize_t foo_read(struct file *f, char __user *buf, size_t len, loff_t *offset)
 {
 	int status = 0;
+
 	mutex_lock(&mtx);
 	if (*offset >= PAGE_SIZE)
 		goto unlock_mtx_rd;
-	if (len + *offset > PAGE_SIZE)	
+	if (len + *offset > PAGE_SIZE)
 		len = PAGE_SIZE - *offset;
 	if (copy_to_user(buf, data + *offset, len)) {
 		status = -EINVAL;
@@ -84,12 +87,13 @@ static ssize_t foo_read(struct file *f, char __user *buf, size_t len, loff_t *of
 	status = len;
 unlock_mtx_rd:
 	mutex_unlock(&mtx);
-	return (status);
+	return status;
 }
 
 static ssize_t foo_write(struct file *f, const char __user *buf, size_t len, loff_t *offset)
 {
 	int status = 0;
+
 	mutex_lock(&mtx);
 	if (*offset >= PAGE_SIZE)
 		goto unlock_mtx_wr;
@@ -103,7 +107,7 @@ static ssize_t foo_write(struct file *f, const char __user *buf, size_t len, lof
 	status = len;
 unlock_mtx_wr:
 	mutex_unlock(&mtx);
-	return (status);
+	return status;
 }
 
 static const struct file_operations foo_fops = {
@@ -116,32 +120,32 @@ static int __init hello_init(void)
 	struct dentry *id, *jiffies, *foo;
 
 	if (!IS_ENABLED(CONFIG_DEBUG_FS))
-		return (-EINVAL);
+		return -EINVAL;
 	printk(KERN_INFO "Hello world from our debugfs module!\n");
 	fortytwo = debugfs_create_dir("fortytwo", NULL);
 	if (!fortytwo)
-		return (PTR_ERR(fortytwo));
+		return PTR_ERR(fortytwo);
 	id = debugfs_create_file("id", 0666, fortytwo, NULL, &id_fops);
 	if (!id) {
 		debugfs_remove_recursive(fortytwo);
-		return (PTR_ERR(id));
+		return PTR_ERR(id);
 	}
 	jiffies = debugfs_create_file("jiffies", 0444, fortytwo, NULL, &jiffies_fops);
 	if (!jiffies) {
 		debugfs_remove_recursive(fortytwo);
-		return (PTR_ERR(id));
+		return PTR_ERR(id);
 	}
 	foo = debugfs_create_file("foo", 0644, fortytwo, NULL, &foo_fops);
 	if (!foo) {
 		debugfs_remove_recursive(fortytwo);
-		return (PTR_ERR(id));
+		return PTR_ERR(id);
 	}
 	memset(data, 0, PAGE_SIZE);
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo created successfully.\n");
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo/id created successfully.\n");
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo/jiffies created successfully.\n");
 	printk(KERN_INFO "/sys/kernel/debug/fortytwo/foo created successfully.\n");
-	return (0);
+	return 0;
 }
 
 static void __exit hello_cleanup(void)

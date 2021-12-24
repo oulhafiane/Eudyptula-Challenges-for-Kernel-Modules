@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-only
+
 #include <linux/module.h>
 #include <linux/version.h>
 #include <linux/kernel.h>
@@ -9,7 +11,7 @@ MODULE_DESCRIPTION("Assignment 01");
 static int __init hello_init(void)
 {
 	printk(KERN_INFO "Hello world !\n");
-	return (0);
+	return 0;
 }
 
 static void __exit hello_cleanup(void)
