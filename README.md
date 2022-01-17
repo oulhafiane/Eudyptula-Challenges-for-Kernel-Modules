@@ -1,6 +1,7 @@
 [![42 Profile Card](https://1337-readme.vercel.app/api/profile?cursus=42cursus&login=zoulhafi)](https://github.com/mohouyizme/1337-readme)
 
-# 1337_42_little-penguin-1-kernel-modules
+# Eudyptula-Challenges-for-Kernel-Modules
+Little Penguin is a school project helps to lean kernel modules : Char devices, communication between Kernel space and User space using devices files in (/dev,  /proc, /sys/kernel/debug), mountpoints, directory listing and linked-list loop in the Kernel.  
 The start of a series of challenges inspired by Eudyptula. You will get acquainted with many points of Kernel development.
 
 ## Introduction
